@@ -119,7 +119,7 @@ int wrap_fsyncdir(const char *path, int datasync, struct fuse_file_info *fileInf
 	//return ExampleFS::Instance()->Fsyncdir(path, datasync, fileInfo);
     return 0;
 }
-int wrap_init(struct fuse_conn_info *conn) {
+void* wrap_init(struct fuse_conn_info *conn) {
 	//return ExampleFS::Instance()->Init(conn);
     return 0;
 }
