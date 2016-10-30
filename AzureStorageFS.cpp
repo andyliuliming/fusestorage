@@ -1,6 +1,6 @@
 #include "AzureStorageFS.h"
 #include <syslog.h>
-
+#include <cstring>
 void set_rootdir(const char *path) {
 	//ExampleFS::Instance()->setRootDir(path);
     syslog(LOG_INFO, "set_rootdir\n");
@@ -8,7 +8,24 @@ void set_rootdir(const char *path) {
 
 int wrap_getattr(const char *path, struct stat *statbuf) {
 	//return ExampleFS::Instance()->Getattr(path, statbuf);
-    syslog(LOG_INFO, "wrap_getattr\n");
+    syslog(LOG_INFO, "wrap_getattr %s\n", path);
+    syslog(LOG_INFO, "statbuf==null? %d\n", (statbuf==NULL) );
+    if(0 == strcmp(path,"/"))
+    {
+        syslog(LOG_INFO, "root status\n");
+        statbuf->st_mode = S_IFDIR;
+        statbuf->st_size = 0;
+    }
+    else
+    {
+        syslog(LOG_INFO, "not root status\n");
+    }
+    // char fullPath[PATH_MAX];
+	// AbsPath(fullPath, path);
+	// syslog(LOG_INFO, "getattr %s\n", path);
+	// // return RETURN_ERRNO(lstat(fullPath, statbuf));
+    // lstat(fullPath, statbuf);
+
     return 0;
 }
 
