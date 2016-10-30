@@ -1,6 +1,7 @@
 #include <fuse.h>
 #include <stdio.h>
 #include <iostream>
+#include <syslog.h>
 #include "AzureStorageFS.h"
 struct fuse_operations examplefs_oper;
  
@@ -8,6 +9,7 @@ int main(int argc, char *argv[])
 {
     int i, fuse_stat;
     std::cout<<"Hello word!"<<std::endl;
+    openlog("fusestorage", LOG_CONS, LOG_USER);
 
     examplefs_oper.getattr = wrap_getattr;
     examplefs_oper.readlink = wrap_readlink;
