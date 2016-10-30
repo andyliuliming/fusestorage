@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
     int i, fuse_stat;
     std::cout<<"Hello word!"<<std::endl;
-    openlog("fusestorage", LOG_CONS, LOG_USER);
+    openlog("fusestorage", LOG_CONS|LOG_PID, LOG_USER);
 
     examplefs_oper.getattr = wrap_getattr;
     examplefs_oper.readlink = wrap_readlink;
