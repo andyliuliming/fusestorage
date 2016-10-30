@@ -39,12 +39,6 @@ int main(int argc, char *argv[])
     //examplefs_oper.releasedir = wrap_releasedir;
     //examplefs_oper.fsyncdir = wrap_fsyncdir;
     //examplefs_oper.init = wrap_init;
-    set_rootdir(realpath(argv[i], NULL));
-
-    for(; i < argc; i++) {
-        argv[i] = argv[i+1];
-    }
-	argc--;
     
 	fuse_stat = fuse_main(argc, argv, &examplefs_oper);
 
