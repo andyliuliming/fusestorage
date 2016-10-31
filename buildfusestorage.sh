@@ -9,3 +9,12 @@ fi
 
 apt-get install libboost-log-dev
 apt-get install libboost-locale-dev
+
+cd  azure-storage-cpp/Microsoft.WindowsAzure.Storage
+cmake .
+make
+
+cd ../..
+cmake .
+make clean
+make
