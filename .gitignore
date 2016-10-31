@@ -4,7 +4,7 @@ fusestorage
 Makefile
 CMakeCache.txt
 .vscode
-
 CMakeLists.txt~
 CMake/FindFUSE.cmake~
 .gitignore~
+azure-storage-cpp

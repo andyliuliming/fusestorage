@@ -13,9 +13,3 @@ AUX_SOURCE_DIRECTORY(. DIR_SRCS)
 
 ADD_EXECUTABLE(fusestorage ${DIR_SRCS})
 target_link_libraries(fusestorage ${FUSE_LIBRARIES})
-
-
-
-
-
-

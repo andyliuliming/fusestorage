@@ -4,7 +4,7 @@
 void set_rootdir(const char *path) {
 	//ExampleFS::Instance()->setRootDir(path);
     syslog(LOG_INFO, "set_rootdir\n");
-}
+    }
 
 int wrap_getattr(const char *path, struct stat *statbuf) {
 	//return ExampleFS::Instance()->Getattr(path, statbuf);
@@ -25,7 +25,6 @@ int wrap_getattr(const char *path, struct stat *statbuf) {
 	// syslog(LOG_INFO, "getattr %s\n", path);
 	// // return RETURN_ERRNO(lstat(fullPath, statbuf));
     // lstat(fullPath, statbuf);
-
     return 0;
 }
 
