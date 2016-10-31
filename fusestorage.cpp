@@ -3,13 +3,13 @@
 #include <iostream>
 #include <syslog.h>
 #include "AzureStorageFS.h"
-#include "Globals.h"
 struct fuse_operations examplefs_oper;
+
+AzureStorageConfig *asConfig = new AzureStorageConfig();
+AzureStorageFSEnv *asEnv = new AzureStorageFSEnv();
 
 int main(int argc, char *argv[])
 {
-    azureStorageConfig = new AzureStorageConfig();
-    azureStorageFSEnv = new AzureStorageFSEnv();
 
     int i, fuse_stat;
     std::cout << "Hello word!" << std::endl;

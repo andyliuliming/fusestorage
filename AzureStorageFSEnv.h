@@ -9,6 +9,10 @@ class AzureStorageFSEnv
     {
         this->fd = 0;
     }
+    long generateFD()
+    {
+        return this->fd++;
+    }
 };
 
 #endif //azure_storage_fs_env_hh

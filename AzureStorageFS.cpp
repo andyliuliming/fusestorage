@@ -1,6 +1,7 @@
 #include "AzureStorageFS.h"
 #include <syslog.h>
 #include <cstring>
+
 void set_rootdir(const char *path)
 {
     //ExampleFS::Instance()->setRootDir(path);
@@ -103,8 +104,9 @@ int wrap_open(const char *path, struct fuse_file_info *fileInfo)
 {
     //return ExampleFS::Instance()->Open(path, fileInfo);
     syslog(LOG_INFO, "wrap_open\n");
-    //fileInfo->fh=
-    return 0;
+    fileInfo->fh = asEnv->generateFD();
+    
+    return fileInfo->fh;
 }
 int wrap_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fileInfo)
 {

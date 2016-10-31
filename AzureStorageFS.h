@@ -14,7 +14,11 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/xattr.h>
+#include "AzureStorageConfig.h"
+#include "AzureStorageFSEnv.h"
 
+extern AzureStorageConfig *asConfig;
+extern AzureStorageFSEnv *asEnv;
 void set_rootdir(const char *path);
 int wrap_getattr(const char *path, struct stat *statbuf);
 int wrap_readlink(const char *path, char *link, size_t size);
