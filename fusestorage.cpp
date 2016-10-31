@@ -5,7 +5,7 @@
 #include "AzureStorageFS.h"
 struct fuse_operations examplefs_oper;
 
-AzureStorageConfig *asConfig = new AzureStorageConfig();
+AzureStorageConfig *asConfig = new AzureStorageConfig("andliumysql1","POi29VbeHAAHBiXyj/gy+MYdR1CuWG5kthAlQZQfm0rmk9zNiMo3lXfJqFgOW8gZC77tsiBVXIRIL9NDMLPkuQ==");
 AzureStorageFSEnv *asEnv = new AzureStorageFSEnv();
 
 int main(int argc, char *argv[])

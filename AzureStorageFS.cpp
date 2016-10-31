@@ -1,4 +1,5 @@
 #include "AzureStorageFS.h"
+#include "PathUtils.h"
 #include <syslog.h>
 #include <cstring>
 
@@ -13,15 +14,31 @@ int wrap_getattr(const char *path, struct stat *statbuf)
     //return ExampleFS::Instance()->Getattr(path, statbuf);
     syslog(LOG_INFO, "wrap_getattr %s\n", path);
     syslog(LOG_INFO, "statbuf==null? %d\n", (statbuf == NULL));
-    if (0 == strcmp(path, "/"))
+
+    syslog(LOG_INFO, "not root status\n");
+    FilePath *filePath = PathUtils::parse(path);
+    if (NULL != filePath)
     {
-        syslog(LOG_INFO, "root status\n");
-        statbuf->st_mode = S_IFDIR;
-        statbuf->st_size = 0;
+        if (NULL == filePath->fileName)
+        {
+            syslog(LOG_INFO, "directory\n");
+            statbuf->st_mode = S_IFDIR;
+            statbuf->st_size = 0;
+        }
+        else
+        {
+            syslog(LOG_INFO, "file\n");
+
+            // node = dict(st_mode=(S_IFREG | 0644), st_size=blob_size,
+            //                     st_mtime=self.convert_to_epoch(blob_date),
+            //                     st_uid=getuid())
+        }
+        delete filePath;
+        filePath = NULL;
     }
     else
     {
-        syslog(LOG_INFO, "not root status\n");
+        //TODO error handling.
     }
     return 0;
 }
@@ -104,8 +121,8 @@ int wrap_open(const char *path, struct fuse_file_info *fileInfo)
 {
     //return ExampleFS::Instance()->Open(path, fileInfo);
     syslog(LOG_INFO, "wrap_open\n");
-    fileInfo->fh = asEnv->generateFD();
-    
+    fileInfo->fh = asEnv->generateFD(path);
+
     return fileInfo->fh;
 }
 int wrap_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fileInfo)
