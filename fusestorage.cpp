@@ -3,13 +3,17 @@
 #include <iostream>
 #include <syslog.h>
 #include "AzureStorageFS.h"
+#include "Globals.h"
 struct fuse_operations examplefs_oper;
- 
+
 int main(int argc, char *argv[])
 {
+    azureStorageConfig = new AzureStorageConfig();
+    azureStorageFSEnv = new AzureStorageFSEnv();
+
     int i, fuse_stat;
-    std::cout<<"Hello word!"<<std::endl;
-    openlog("fusestorage", LOG_CONS|LOG_PID, LOG_USER);
+    std::cout << "Hello word!" << std::endl;
+    openlog("fusestorage", LOG_CONS | LOG_PID, LOG_USER);
 
     examplefs_oper.getattr = wrap_getattr;
     examplefs_oper.readlink = wrap_readlink;
@@ -41,10 +45,10 @@ int main(int argc, char *argv[])
     examplefs_oper.releasedir = wrap_releasedir;
     examplefs_oper.fsyncdir = wrap_fsyncdir;
     examplefs_oper.init = wrap_init;
-    
-	fuse_stat = fuse_main(argc, argv, &examplefs_oper, NULL);
 
-	printf("fuse_main returned %d\n", fuse_stat);
+    fuse_stat = fuse_main(argc, argv, &examplefs_oper, NULL);
 
-	return fuse_stat;
- }
+    printf("fuse_main returned %d\n", fuse_stat);
+
+    return fuse_stat;
+}
