@@ -2,23 +2,32 @@
 #include "PathUtils.h"
 #include <syslog.h>
 #include <cstring>
+#include <unistd.h>
+#include <sys/types.h>
+AzureStorageFSEnv *AzureStorageFS::asEnv = NULL;
+const char *AzureStorageFS::_root = NULL;
+AzureStorageAdapter *AzureStorageFS::asAdapter = NULL;
 
-AzureStorageConfig* AzureStorageFS::asConfig = NULL;
-AzureStorageFSEnv* AzureStorageFS::asEnv = NULL;
+void AzureStorageFS::AbsPath(char dest[PATH_MAX], const char *path)
+{
+    strcpy(dest, _root);
+    strncat(dest, path, PATH_MAX);
+}
 
 void AzureStorageFS::set_rootdir(const char *path)
 {
-    //ExampleFS::Instance()->setRootDir(path);
+    _root = path;
     syslog(LOG_INFO, "set_rootdir\n");
 }
 
 int AzureStorageFS::AzureStorageFS::wrap_getattr(const char *path, struct stat *statbuf)
 {
-    //return ExampleFS::Instance()->Getattr(path, statbuf);
     syslog(LOG_INFO, "AzureStorageFS::wrap_getattr %s\n", path);
     syslog(LOG_INFO, "statbuf==null? %d\n", (statbuf == NULL));
 
-    syslog(LOG_INFO, "not root status\n");
+    // '/'
+    // '/abo'
+    // '/abc/efg'
     FilePath *filePath = PathUtils::parse(path);
     if (NULL != filePath)
     {
@@ -31,7 +40,8 @@ int AzureStorageFS::AzureStorageFS::wrap_getattr(const char *path, struct stat *
         else
         {
             syslog(LOG_INFO, "file\n");
-
+            statbuf->st_mode= S_IFREG | 0644;
+            statbuf->st_uid = getuid();
             // node = dict(st_mode=(S_IFREG | 0644), st_size=blob_size,
             //                     st_mtime=self.convert_to_epoch(blob_date),
             //                     st_uid=getuid())

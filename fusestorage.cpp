@@ -8,8 +8,12 @@ struct fuse_operations examplefs_oper;
 int main(int argc, char *argv[])
 {
     int fuse_stat;
-    AzureStorageFS::asConfig = new AzureStorageConfig("andliumysql1","POi29VbeHAAHBiXyj/gy+MYdR1CuWG5kthAlQZQfm0rmk9zNiMo3lXfJqFgOW8gZC77tsiBVXIRIL9NDMLPkuQ==");
+    AzureStorageConfig *asConfig = new AzureStorageConfig("andliumysql1","POi29VbeHAAHBiXyj/gy+MYdR1CuWG5kthAlQZQfm0rmk9zNiMo3lXfJqFgOW8gZC77tsiBVXIRIL9NDMLPkuQ==");
+
     AzureStorageFS::asEnv = new AzureStorageFSEnv();
+
+    AzureStorageFS::asAdapter = new AzureStorageAdapter(asConfig);
+    
     openlog("fusestorage", LOG_CONS | LOG_PID, LOG_USER);
 
     examplefs_oper.getattr = AzureStorageFS::wrap_getattr;
