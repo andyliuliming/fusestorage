@@ -17,12 +17,11 @@
 #include "AzureStorageConfig.h"
 #include "AzureStorageFSEnv.h"
 
-extern AzureStorageConfig *asConfig;
-extern AzureStorageFSEnv *asEnv;
 class AzureStorageFS
 {
-  private:
   public:
+    static AzureStorageConfig *asConfig;
+    static AzureStorageFSEnv *asEnv;
     static void set_rootdir(const char *path);
     static int wrap_getattr(const char *path, struct stat *statbuf);
     static int wrap_readlink(const char *path, char *link, size_t size);
@@ -54,5 +53,6 @@ class AzureStorageFS
     static int wrap_fsyncdir(const char *path, int datasync, struct fuse_file_info *fileInfo);
     static void *wrap_init(struct fuse_conn_info *conn);
 };
+
 
 #endif //azure_storage_fs_hh

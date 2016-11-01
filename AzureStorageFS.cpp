@@ -3,6 +3,9 @@
 #include <syslog.h>
 #include <cstring>
 
+AzureStorageConfig* AzureStorageFS::asConfig = NULL;
+AzureStorageFSEnv* AzureStorageFS::asEnv = NULL;
+
 void AzureStorageFS::set_rootdir(const char *path)
 {
     //ExampleFS::Instance()->setRootDir(path);
@@ -121,7 +124,7 @@ int AzureStorageFS::wrap_open(const char *path, struct fuse_file_info *fileInfo)
 {
     //return ExampleFS::Instance()->Open(path, fileInfo);
     syslog(LOG_INFO, "AzureStorageFS::wrap_open\n");
-    fileInfo->fh = asEnv->generateFD(path);
+    //fileInfo->fh = asEnv->generateFD(path);
 
     return fileInfo->fh;
 }
