@@ -42,9 +42,7 @@ int AzureStorageFS::AzureStorageFS::wrap_getattr(const char *path, struct stat *
             syslog(LOG_INFO, "file\n");
             statbuf->st_mode= S_IFREG | 0644;
             statbuf->st_uid = getuid();
-            // node = dict(st_mode=(S_IFREG | 0644), st_size=blob_size,
-            //                     st_mtime=self.convert_to_epoch(blob_date),
-            //                     st_uid=getuid())
+            statbuf->st_size = asAdapter->getSize(filePath);
         }
         delete filePath;
         filePath = NULL;

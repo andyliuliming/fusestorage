@@ -6,4 +6,4 @@ make
 killall fusestorage
 ./bin/fusestorage ../testfs
 
-ls ../testfs/abc/defg -all
+cat ../testfs/abc/ssladmin

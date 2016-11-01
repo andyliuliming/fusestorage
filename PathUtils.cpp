@@ -22,7 +22,8 @@ FilePath *PathUtils::parse(const char *path)
     {
         int totalLen = strlen(path);
         filePath->directory = new char[lastOfSlash];
-        strncpy(filePath->directory, path, lastOfSlash);
+        strncpy(filePath->directory, path + 1, lastOfSlash - 1);
+        filePath->directory[lastOfSlash-1]='\0';
 
         int fileNameLen = totalLen - lastOfSlash;
         filePath->fileName = new char[fileNameLen + 1];
