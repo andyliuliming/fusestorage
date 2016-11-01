@@ -10,9 +10,8 @@ AzureStorageFSEnv *asEnv = new AzureStorageFSEnv();
 
 int main(int argc, char *argv[])
 {
-
-    int i, fuse_stat;
-    std::cout << "Hello word!" << std::endl;
+    int fuse_stat;
+    
     openlog("fusestorage", LOG_CONS | LOG_PID, LOG_USER);
 
     examplefs_oper.getattr = wrap_getattr;
@@ -46,9 +45,10 @@ int main(int argc, char *argv[])
     examplefs_oper.fsyncdir = wrap_fsyncdir;
     examplefs_oper.init = wrap_init;
 
+    syslog(LOG_INFO, "try to mount!\n");
     fuse_stat = fuse_main(argc, argv, &examplefs_oper, NULL);
 
-    printf("fuse_main returned %d\n", fuse_stat);
+    syslog(LOG_INFO, "fuse_main returned %d\n", fuse_stat);
 
     return fuse_stat;
 }

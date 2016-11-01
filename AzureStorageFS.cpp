@@ -2,6 +2,8 @@
 #include "PathUtils.h"
 #include <syslog.h>
 #include <cstring>
+#include "was/storage_account.h"
+#include "was/blob.h"
 
 void set_rootdir(const char *path)
 {
