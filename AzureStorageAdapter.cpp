@@ -1,18 +1,30 @@
 #include "AzureStorageAdapter.h"
-long AzureStorageAdapter::getSize(FilePath *filePath)
-{
-    syslog(LOG_INFO, "AzureStorageAdapter::getSize %s %s\n", filePath->directory, filePath->fileName);
-    azure::storage::cloud_blob_container container = blob_client->get_container_reference(_XPLATSTR(filePath->directory));
-    if (container.exists())
-    {
-        syslog(LOG_INFO, "AzureStorageAdapter::getSize2\n");
-        azure::storage::cloud_block_blob blob1 = container.get_block_blob_reference(_XPLATSTR(filePath->fileName));
-        blob1.download_attributes();
-        syslog(LOG_INFO, "AzureStorageAdapter::getSize3\n");
-        return blob1.properties().size();
+
+ 
+char_array_buffer::char_array_buffer(char *data, unsigned int len)
+: begin_(data), end_(data + len), current_(data) { }
+ 
+char_array_buffer::int_type char_array_buffer::underflow() {
+    if (current_ == end_) {
+        return traits_type::eof();
     }
-    else
-    {
-        return 0;
+    return traits_type::to_int_type(*current_);     // HERE!
+}
+ 
+char_array_buffer::int_type char_array_buffer::uflow() {
+    if (current_ == end_) {
+        return traits_type::eof();
     }
+    return traits_type::to_int_type(*current_++);   // HERE!
+}
+ 
+char_array_buffer::int_type char_array_buffer::pbackfail(int_type ch) {
+    if (current_ == begin_ || (ch != traits_type::eof() && ch != current_[-1])) {
+        return traits_type::eof();
+    }
+    return traits_type::to_int_type(*--current_);   // HERE!
+}
+ 
+std::streamsize char_array_buffer::showmanyc() {
+    return end_ - current_;
 }

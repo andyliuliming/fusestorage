@@ -40,7 +40,7 @@ int AzureStorageFS::AzureStorageFS::wrap_getattr(const char *path, struct stat *
         else
         {
             syslog(LOG_INFO, "file\n");
-            statbuf->st_mode= S_IFREG | 0644;
+            statbuf->st_mode = S_IFREG | 0644;
             statbuf->st_uid = getuid();
             statbuf->st_size = asAdapter->getSize(filePath);
         }
@@ -131,7 +131,7 @@ int AzureStorageFS::wrap_utime(const char *path, struct utimbuf *ubuf)
 int AzureStorageFS::wrap_open(const char *path, struct fuse_file_info *fileInfo)
 {
     //return ExampleFS::Instance()->Open(path, fileInfo);
-    syslog(LOG_INFO, "AzureStorageFS::wrap_open %s %s\n", path, path);
+    syslog(LOG_INFO, "AzureStorageFS::wrap_open %s\n", path);
     //fileInfo->fh = asEnv->generateFD(path);
 
     return fileInfo->fh;
@@ -140,6 +140,17 @@ int AzureStorageFS::wrap_read(const char *path, char *buf, size_t size, off_t of
 {
     //return ExampleFS::Instance()->Read(path, buf, size, offset, fileInfo);
     syslog(LOG_INFO, "AzureStorageFS::wrap_read %s %ld %ld\n", path, size, offset);
+    FilePath *filePath = PathUtils::parse(path);
+    if (NULL != filePath)
+    {
+        if (NULL != filePath->fileName)
+        {
+            int result = asAdapter->read(filePath, buf, size, offset);
+            delete filePath;
+            filePath = NULL;
+            return result;
+        }
+    }
     return 0;
 }
 int AzureStorageFS::wrap_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fileInfo)
